@@ -28,4 +28,23 @@ router.post("/addPlaces", async (req, res) => {
   }
 })
 
+
+router.get("/getPlaces",async(req,res)=>{
+  try {
+    const {data,error:dataError}=await supabase
+    .from("places")
+    .select("id","name")
+    if(!data){
+      res.status(500).json({
+        message:"Request cannot be processed right now, try again later!"
+      })
+      return data
+    }
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({
+      message:"Something went wrong!"
+    })
+  }
+})
 export default router
