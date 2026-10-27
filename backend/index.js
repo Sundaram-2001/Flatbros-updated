@@ -14,6 +14,6 @@ app.get("/", async (req, res) => {
   res.send("it works")
 })
 
-app.listen(3000, () => {
+app.listen(3000, "0.0.0.0", () => {
   console.log("service listening on 3000")
 })

@@ -31,20 +31,43 @@ router.post("/addPlaces", async (req, res) => {
 
 router.get("/getPlaces",async(req,res)=>{
   try {
-    const {data,error:dataError}=await supabase
+    const {data,error}=await supabase
     .from("places")
-    .select("id","name")
-    if(!data){
-      res.status(500).json({
-        message:"Request cannot be processed right now, try again later!"
+    .select("id,name")
+    if(error){
+      return res.status(500).json({
+        message:"Request cannot be processed right now!"
       })
-      return data
     }
+    res.json(data)
   } catch (error) {
     console.error(error)
-    return res.status(500).json({
+    res.status(500).json({
       message:"Something went wrong!"
     })
   }
 })
+router.get("/getProperties", async (req, res) => {
+  const { placeId } = req.query
+  if (!placeId) {
+    return res.status(400).json({ message: "placeId is required" })
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("properties")
+      .select("id, title, rent, furnishing, preference, diet_prefernce, photo")
+      .eq("place_id", placeId)
+
+    if (error) {
+      return res.status(500).json({ message: error.message })
+    }
+
+    res.json(data)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Something went wrong!" })
+  }
+})
+
 export default router
