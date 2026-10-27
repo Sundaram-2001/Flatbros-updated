@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { API_URL } from '../../api/config';
 
@@ -40,9 +40,12 @@ export default function Home() {
           keyExtractor={(item) => item.id}
           ListEmptyComponent={<Text>No localities yet.</Text>}
           renderItem={({ item }) => (
-            <Text style={{ fontSize: 16, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
-              {item.name}
-            </Text>
+            <Pressable
+              onPress={() => fetch(`${API_URL}/getProperties?placeId=${item.id}`)}
+              style={{ paddingVertical: 14 }}
+            >
+              <Text style={{ fontSize: 16 }}>{item.name}</Text>
+            </Pressable>
           )}
         />
       )}
