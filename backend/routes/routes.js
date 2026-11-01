@@ -50,20 +50,22 @@ router.get("/getPlaces",async(req,res)=>{
 router.get("/getProperties", async (req, res) => {
   const { placeId } = req.query
   if (!placeId) {
-    return res.status(400).json({ message: "placeId is required" })
+    console.error("Place ID is not passed")
+    return res.status(400).json({ message: "Request not passed correctly, kindly contact the support team for further assistance!" })
   }
 
   try {
     const { data, error } = await supabase
       .from("properties")
-      .select("id, title, rent, furnishing, preference, diet_prefernce, photo")
+      .select("id, building_name")
       .eq("place_id", placeId)
 
     if (error) {
+      console.error("Unable to fetch the data:",error.message)
       return res.status(500).json({ message: error.message })
     }
 
-    res.json(data)
+    res.json(data ?? [])
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: "Something went wrong!" })

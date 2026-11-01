@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { API_URL } from '../../api/config';
+import { API_URL } from '../../../api/config';
 
 export default function Home() {
   const insets = useSafeAreaInsets();
