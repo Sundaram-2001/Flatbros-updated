@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -41,7 +42,12 @@ export default function Home() {
           ListEmptyComponent={<Text>No localities yet.</Text>}
           renderItem={({ item }) => (
             <Pressable
-              onPress={() => fetch(`${API_URL}/getProperties?placeId=${item.id}`)}
+              onPress={() =>
+                router.push({
+                  pathname: '/properties',
+                  params: { placeId: item.id, placeName: item.name },
+                })
+              }
               style={{ paddingVertical: 14 }}
             >
               <Text style={{ fontSize: 16 }}>{item.name}</Text>

@@ -57,7 +57,7 @@ router.get("/getProperties", async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("properties")
-      .select("id, building_name")
+      .select("id, place_id, locality, bhk, property_type, furnishing, rent, deposit, parking, available_from, food, gender, tenant_students, tenant_working, tenant_families")
       .eq("place_id", placeId)
 
     if (error) {
