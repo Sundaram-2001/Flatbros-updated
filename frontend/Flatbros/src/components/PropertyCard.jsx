@@ -1,12 +1,5 @@
 import { SymbolView } from 'expo-symbols';
-import { BankNoteIcon } from 'mochi-icons/BankNoteIcon';
-import { BedIcon } from 'mochi-icons/BedIcon';
-import { CalendarIcon } from 'mochi-icons/CalendarIcon';
-import { CarIcon } from 'mochi-icons/CarIcon';
-import { RamenBowlIcon } from 'mochi-icons/RamenBowlIcon';
-import { RupeeIcon } from 'mochi-icons/RupeeIcon';
-import { UserIcon } from 'mochi-icons/UserIcon';
-import { Platform, Pressable, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 const furnishingLabels = {
   semi: 'Semi-furnished',
@@ -68,24 +61,14 @@ function tenantLabel(property) {
   return `${gender} · ${people.join(', ')}`;
 }
 
-function CardIcon({ icon: Icon, symbol }) {
-  if (Platform.OS === 'web') {
-    return <Icon size={20} />;
-  }
-
-  return (
-    <SymbolView
-      name={symbol}
-      tintColor="#3a3a3a"
-      size={18}
-    />
-  );
+function CardIcon({ name }) {
+  return <SymbolView name={name} tintColor="#3a3a3a" size={18} />;
 }
 
-function Fact({ icon, symbol, text, wide }) {
+function Fact({ name, text, wide }) {
   return (
     <View style={{ width: wide ? '100%' : '50%', flexDirection: 'row', alignItems: 'center', gap: 6, paddingRight: 8 }}>
-      <CardIcon icon={icon} symbol={symbol} />
+      <CardIcon name={name} />
       <Text style={{ flex: 1, fontSize: 13, color: '#3a3a3a' }}>{text}</Text>
     </View>
   );
@@ -123,43 +106,34 @@ export function PropertyCard({ property, onPress }) {
           <Text style={{ fontSize: 13, color: '#6b6b6b' }}>{property.locality}</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-          <CardIcon
-            icon={RupeeIcon}
-            symbol={{ ios: 'indianrupeesign', android: 'currency_rupee', web: 'currency_rupee' }}
-          />
+          <CardIcon name={{ ios: 'indianrupeesign', android: 'currency_rupee', web: 'currency_rupee' }} />
           <Text style={{ fontSize: 18, fontWeight: '600', color: '#1a1a1a' }}>{formatAmount(property.rent)}</Text>
           <Text style={{ fontSize: 13, color: '#6b6b6b' }}>/ month</Text>
         </View>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', rowGap: 10 }}>
           <Fact
-            icon={BankNoteIcon}
-            symbol={{ ios: 'banknote', android: 'payments', web: 'payments' }}
+            name={{ ios: 'banknote', android: 'payments', web: 'payments' }}
             text={`₹${formatAmount(property.deposit)}`}
           />
           <Fact
-            icon={CalendarIcon}
-            symbol={{ ios: 'calendar', android: 'calendar_month', web: 'calendar_month' }}
+            name={{ ios: 'calendar', android: 'calendar_month', web: 'calendar_month' }}
             text={formatDate(property.available_from)}
           />
           <Fact
-            icon={CarIcon}
-            symbol={{ ios: 'car.fill', android: 'directions_car', web: 'directions_car' }}
+            name={{ ios: 'car.fill', android: 'directions_car', web: 'directions_car' }}
             text={parkingLabels[property.parking] ?? formatWord(property.parking)}
           />
           <Fact
-            icon={BedIcon}
-            symbol={{ ios: 'bed.double.fill', android: 'bed', web: 'bed' }}
+            name={{ ios: 'bed.double.fill', android: 'bed', web: 'bed' }}
             text={furnishingLabels[property.furnishing] ?? formatWord(property.furnishing)}
           />
           <Fact
-            icon={RamenBowlIcon}
-            symbol={{ ios: 'fork.knife', android: 'restaurant', web: 'restaurant' }}
+            name={{ ios: 'fork.knife', android: 'restaurant', web: 'restaurant' }}
             text={foodLabels[property.food] ?? formatWord(property.food)}
           />
           <Fact
             wide
-            icon={UserIcon}
-            symbol={{ ios: 'person.fill', android: 'person', web: 'person' }}
+            name={{ ios: 'person.fill', android: 'person', web: 'person' }}
             text={tenantLabel(property)}
           />
         </View>
