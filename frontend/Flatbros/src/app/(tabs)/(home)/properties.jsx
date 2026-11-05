@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, FlatList, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -56,7 +56,15 @@ export default function Properties() {
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ paddingBottom: insets.bottom + 24 }}
           ListEmptyComponent={<Text>No properties in this area yet.</Text>}
-          renderItem={({ item }) => <PropertyCard property={item} />}
+          renderItem={({ item }) => (
+            <PropertyCard
+              property={item}
+              onPress={() => router.push({
+                pathname: '/property-details',
+                params: { propertyId: item.id },
+              })}
+            />
+          )}
         />
       )}
     </View>

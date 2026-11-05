@@ -2,6 +2,7 @@ import express from "express"
 import supabase from "../db/supabase.js"
 
 const router = express.Router()
+const publicPropertyFields = "id, bhk, rent, gender"
 
 router.post("/addPlaces", async (req, res) => {
   const { id, name } = req.body
@@ -57,7 +58,7 @@ router.get("/getProperties", async (req, res) => {
   try {
     const { data, error } = await supabase
       .from("properties")
-      .select("id, place_id, locality, bhk, property_type, furnishing, rent, deposit, parking, available_from, food, gender, tenant_students, tenant_working, tenant_families")
+      .select(publicPropertyFields)
       .eq("place_id", placeId)
 
     if (error) {
@@ -70,6 +71,30 @@ router.get("/getProperties", async (req, res) => {
     console.error(error)
     res.status(500).json({ message: "Something went wrong!" })
   }
+})
+
+router.get("/getProperty", async (req, res) => {
+  const { propertyId } = req.query
+  if (typeof propertyId !== "string" || !propertyId.trim()) {
+    return res.status(400).json({ message: "A property ID is required." })
+  }
+
+  const { data, error } = await supabase
+    .from("properties")
+    .select(publicPropertyFields)
+    .eq("id", propertyId)
+    .maybeSingle()
+
+  if (error) {
+    console.error("Unable to fetch property:", error.message)
+    return res.status(500).json({ message: "Could not load property details." })
+  }
+
+  if (!data) {
+    return res.status(404).json({ message: "Property not found." })
+  }
+
+  res.json(data)
 })
 
 export default router
