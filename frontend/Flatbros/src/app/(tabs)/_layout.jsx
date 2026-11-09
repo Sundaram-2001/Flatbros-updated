@@ -1,10 +1,17 @@
 import { Tabs } from "expo-router"
 import { SymbolView } from "expo-symbols"
+import { Pressable } from "react-native"
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
+        tabBarButton:(props)=>{
+          <Pressable
+            {...props}
+            android_ripple={{ color: "transparent", borderless: false }}
+          />
+        },
         tabBarStyle: {
           backgroundColor: '#ffffff',
           borderTopWidth: 0,
