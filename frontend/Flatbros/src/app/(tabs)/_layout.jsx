@@ -6,12 +6,12 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarButton:(props)=>{
+        tabBarButton: (props) => (
           <Pressable
             {...props}
             android_ripple={{ color: "transparent", borderless: false }}
           />
-        },
+        ),
         tabBarStyle: {
           backgroundColor: '#ffffff',
           borderTopWidth: 0,
